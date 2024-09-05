@@ -1,6 +1,6 @@
 from django.db import models
 from Customers.models import Customer
-from Products.models import Product, DiscountCodes
+from Products.models import Product, DiscountCode
 from django.core.validators import MinValueValidator
 import uuid
 from core.models import BaseModel
@@ -19,9 +19,8 @@ class Order(BaseModel):
 
     amount = models.DecimalField(max_digits=12, decimal_places=2)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    discount = models.ForeignKey(DiscountCodes, on_delete=models.DO_NOTHING)
-    total_price = models.DecimalField(
-        null=True, decimal_places=3, max_digits=20)
+    discount = models.ForeignKey(DiscountCode, on_delete=models.DO_NOTHING)
+    total_price = models.DecimalField(null=True, decimal_places=3, max_digits=20)
     description = models.TextField(null=True)
     status = models.CharField(choices=StatusChoices,
                               default=StatusChoices.InProgress, max_length=30)
