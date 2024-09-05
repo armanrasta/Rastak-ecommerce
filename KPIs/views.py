@@ -11,8 +11,9 @@ from django.utils import timezone
 def calculate_kpis():
     today = timezone.now().date()
     orders_today = Order.objects.filter(created_at__date=today)
-    
-    total_revenue = orders_today.aggregate(Sum('total_price'))['total_price__sum'] or 0
+
+    total_revenue = orders_today.aggregate(Sum('total_price'))[
+        'total_price__sum'] or 0
     total_orders = orders_today.count()
     average_order_value = total_revenue / total_orders if total_orders > 0 else 0
 
@@ -24,7 +25,7 @@ def calculate_kpis():
         'total_orders': total_orders,
         'new_customers': new_customers,
     }
-    
+
 
 class Command(BaseCommand):
     help = 'Calculate daily KPIs'
@@ -37,4 +38,5 @@ class Command(BaseCommand):
             total_orders=kpis['total_orders'],
             new_customers=kpis['new_customers'],
         )
-        self.stdout.write(self.style.SUCCESS('Successfully calculated daily KPIs'))
+        self.stdout.write(self.style.SUCCESS(
+            'Successfully calculated daily KPIs'))

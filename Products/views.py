@@ -6,9 +6,14 @@ from django.db.models import Q
 
 
 
-def products_by_category(request):
-    category = get_object_or_404(Category)
+def products_by_category(request, category_slug):
+    category = get_object_or_404(Category, slug=category_slug )
     products = Product.objects.filter(category=category)
+    context = {
+        'category': category,
+        'products': products
+    }
+    return render(request, 'your_app/products_by_category.html', context)
     
 def search(request):
     form = SearchForm()

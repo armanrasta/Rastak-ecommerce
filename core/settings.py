@@ -40,12 +40,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
+    'KPIs',
     'Customers',
     'Orders',
     'Products',
     'rest_framework',
     'rest_framework_simplejwt',
     'import_export',
+    'celery',
 ]
 
 MIDDLEWARE = [
@@ -150,3 +152,18 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# celery
+from celery.schedules import crontab
+
+CELERY_BROKER_URL = 'redis://:8kwYQHEjzA74IiM3ZhTZRITP@grand-teton.liara.cloud:34709/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_BACKEND = 'redis://:8kwYQHEjzA74IiM3ZhTZRITP@grand-teton.liara.cloud:34709/0'
+CELERY_BEAT_SCHEDULE = {
+    'run-daily-kpi-task': {
+        'task': 'KPIs.tasks.run_daily_kpi_task',
+        'schedule': crontab(hour=23, minute=59),
+    },
+}
