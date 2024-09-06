@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Category, Product
-from forms import SearchForm
+from .forms import SearchForm
 from django.db.models import Q
 # Create your views here.
 
@@ -13,7 +13,7 @@ def products_by_category(request, category_slug):
         'category': category,
         'products': products
     }
-    return render(request, 'your_app/products_by_category.html', context)
+    return render(request, 'Products/products_by_category.html', context)
     
 def search(request):
     form = SearchForm()
@@ -27,3 +27,7 @@ def search(request):
             
             return render(request, 'search.html',
                           {'form':form, 'results':results})
+            
+            
+def home(request):
+    render(request, 'Products/home.html')

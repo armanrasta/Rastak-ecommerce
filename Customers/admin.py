@@ -18,3 +18,5 @@ class AddressInline(admin.StackedInline):
 class CustomerAdmin(admin.ModelAdmin):
     inlines = [AddressInline,]
     
+
+    

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+.jumbotron{
+    padding: 20px;
+    margin-bottom: 20px;
+}
+{% block content %}
+<div class="jumbotron">
+      <h3>Checkout</h3>
+    <p>Total: {{ order.get_total_price }}</p>
+    <a href="{% url 'menu:first' %}" class="btn btn-primary">Confirm</a>
+</div>
+
+
+{% endblock %}
