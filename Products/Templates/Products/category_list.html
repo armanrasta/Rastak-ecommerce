@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+    <!-- breadcrumb-section -->
+    <div class="breadcrumb-section breadcrumb-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2 text-center">
+                    <div class="breadcrumb-text">
+                        <h1>Categories</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end breadcrumb section -->
+
+    <div class="category-list">
+        {% for category in categories %}
+            <div class="category-item">
+                <div class="category-photo">
+                    {% if category.pic %}
+                        <img src="{{ category.pic.url }}" alt="{{ category.name }}" />
+                    {% else %}
+                        <img src="{% static 'default-category.jpg' %}" alt="No image" />
+                    {% endif %}
+                </div>
+                <div class="category-info">
+                    <h2>{{ category.name }}</h2>
+                    <ul>
+                        {% for subcategory in category.subcat.all %}
+                            <li>
+                                <img src="{{ subcategory.pic.url }}" alt="{{ subcategory.name }}" />
+                                <a href="{% url 'products_by_category' subcategory.name %}">{{ subcategory.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

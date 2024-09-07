@@ -15,14 +15,20 @@
 						<!-- menu start -->
 						<nav class="main-menu">
 							<ul>
-								<li class="current-list-item"><a href="{% url 'menu:first'%}">Home</a></li>
-								<li><a href="{% url 'menu:home' %}">Menu</a>
+								<li class="current-list-item"><a href="{% url 'home' %}">Home</a></li>
+								<li><a href="{% url 'category_list' %}">Categories</a>
 								</li>
 								<li>
 									<div class="header-icons">
-										<a class="shopping-cart" href="{% url 'order:cart' %}"><i class="fas fa-shopping-cart"></i></a>
+										{% comment %} <a class="shopping-cart" href="{% url 'order:cart' %}"><i class="fas fa-shopping-cart"></i></a> {% endcomment %}
 									</div>
 								</li>
+								{% if user.is_authenticated %}
+										<li><a href="{% url 'logout' %}">Log out</a></li>
+								{% else %}
+										<li><a href="{% url 'login' %}">Log In</a></li>
+										<li><a href="{% url 'signup' %}">Sign Up</a></li>
+								{% endif %}
 							</ul>
 						</nav>
 						<div class="mobile-menu"></div>

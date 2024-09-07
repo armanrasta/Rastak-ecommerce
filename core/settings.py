@@ -85,10 +85,9 @@ SILENCED_SYSTEM_CHECKS = ["security.W019"]
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    # 'Customers.backends.CustomerAuthBackend',
     'Customers.backends.CustomerBackend'
 ]
-
+AUTH_USER_MODEL = 'Customers.customer'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -148,7 +147,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
-MEDIA_URL = 'media/'
+MEDIA_URL = 'Media/'
 MEDIA_ROOT = BASE_DIR / 'Media'
 
 STATICFILES_DIRS = [

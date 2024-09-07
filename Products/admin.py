@@ -1,7 +1,7 @@
 from django.contrib import admin
 from djangoql.admin import DjangoQLSearchMixin
 from import_export.admin import ExportActionModelAdmin
-from .models import Product, ProductPicture, ProductColor, Color, DiscountCode
+from .models import Product, ProductPicture, ProductColor, Color, DiscountCode, Category
 
 class ProductPictureInline(admin.TabularInline):
     model = ProductPicture
@@ -17,5 +17,6 @@ class ProductAdmin(DjangoQLSearchMixin, ExportActionModelAdmin):
                     'price','manufacture_date', 'detail']
     inlines = [ProductPictureInline, ProductColorInline]
 
+admin.site.register(Category)
 admin.site.register(Color)
 admin.site.register(DiscountCode, ExportActionModelAdmin)

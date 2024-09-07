@@ -5,16 +5,35 @@ from django.db.models import Q
 # Create your views here.
 
 
-
-def products_by_category(request, category_slug):
-    category = get_object_or_404(Category, slug=category_slug )
+def products_by_category(request, category_name):
+    category = get_object_or_404(Category, name=category_name)
     products = Product.objects.filter(category=category)
     context = {
         'category': category,
         'products': products
     }
     return render(request, 'Products/products_by_category.html', context)
-    
+
+def category_list(request):
+    categories = Category.objects.filter(is_subcat=False)
+    context = {
+        'categories': categories
+    }
+    return render(request, 'Products/category_list.html', context)
+
+
+def product_detail(request, product_name):
+    product = get_object_or_404(Product, name=product_name)
+    pictures = product.pictures.all()
+    colors = product.productcolor_set.all()
+    context = {
+        'product': product,
+        'pictures': pictures,
+        'colors': colors
+    }
+    return render(request, 'Products/product_detail.html', context)
+
+
 def search(request):
     form = SearchForm()
     results = []
@@ -30,4 +49,5 @@ def search(request):
             
             
 def home(request):
-    render(request, 'Products/home.html')
+    
+    return render(request, 'Products/home.html')
