@@ -1,5 +1,5 @@
-
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 <!-- breadcrumb-section -->
@@ -18,24 +18,24 @@
 <!-- end breadcrumb section -->
 
 <!-- form starts here -->
-<form method="post" action="{% url 'order:order_detail' order.id %}">
+<form method="post" action="{% url 'orders:checkout' %}">
   {% csrf_token %}
 
-  <!-- check out section -->
+  <!-- Address Form -->
   <div class="checkout-section mt-150 mb-150">
     <div class="container">
       <div class="row">
         <div class="col-lg-8">
           <div class="checkout-accordion-wrap">
             <div class="accordion" id="accordionExample">
-              
+
               <!-- Phone number & Order Description Section -->
               <div class="card single-accordion">
                 <div class="card-header" id="headingOne">
                   <h5 class="mb-0">
                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
                       aria-expanded="true" aria-controls="collapseOne">
-                      Phone number & Order Description
+                      Address
                     </button>
                   </h5>
                 </div>
@@ -43,8 +43,7 @@
                 <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
                   <div class="card-body">
                     <div class="billing-address-form">
-                        <p><input type="tel" name="customer_number" placeholder="Phone"></p>
-                        <p><textarea name="additional_info" cols="30" rows="10" placeholder="Say Something"></textarea></p>
+                      {{ address_form.as_p }}
                     </div>
                   </div>
                 </div>
@@ -64,12 +63,11 @@
                 <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
                   <div class="card-body">
                     <div class="card-details">
-                      {% for table in tables %}
+                      {% for item in cart %}
                           <p>
-                              <label>
-                                  <input type="radio" name="selected_table" value="{{ table.id }}" required>
-                                  no-{{ table.name }} vol: {{table.capacity}}🧍
-                              </label>
+                              
+                            {{ item.product }} - vol: {{item.quantity}}
+                              
                           </p>
                       {% endfor %}
                     </div>
@@ -99,12 +97,13 @@
                 {% for item in cart %}
                 <tr>
                   <td><small>{{ item.product }}</small></td>
-                  <td><small>T{{ item.get_cost }}</small></td>
+                  <td><small>T{{ item.total_price }}</small></td>
                 </tr>
                 {% endfor %}
+                <!-- Total Price should be calculated in the view and passed to the template -->
                 <tr>
                   <td><b>Total</b></td>
-                  <td>T{{ order.get_total_price }}</td>
+                  <td>T{{ total_price }}</td>
                 </tr>
               </tbody>
             </table>

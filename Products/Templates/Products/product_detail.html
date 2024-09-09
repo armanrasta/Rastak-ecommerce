@@ -47,7 +47,7 @@
               {% endfor %}
             </div>
             <div class="single-product-form">
-              <form action="{% url 'order:cart_add' product.id %}" method="post">
+              <form action="{% url 'customers:add_to_cart' product.id %}" method="post">
                 {% csrf_token %}
                 <label for="quantity">Quantity:</label>
                 <input type="number" id="quantity" name="quantity" value="1" min="1">

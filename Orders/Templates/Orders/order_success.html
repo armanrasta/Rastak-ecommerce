@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+  <!-- breadcrumb-section -->
+  <div class="breadcrumb-section breadcrumb-bg">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 offset-lg-2 text-center">
+          <div class="breadcrumb-text">
+            <h1>Order Successfully Placed!</h1>
+            <p>Thanks for your purchase</p>
+            <h1>Checkout</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end breadcrumb section -->
+
+  <p>Your order ID is: {{ order.id }}</p>
+  <p>
+    <strong>Customer:</strong> {{ order.customer }}
+  </p>
+  <p>
+    <strong>Status:</strong> {{ order.get_status_display }}
+  </p>
+  <p>
+    <strong>Total Price:</strong> {{ order.total_price }}
+  </p>
+
+  <h2>Order Details:</h2>
+  <ul>
+    {% for item in order.items.all %}
+      <li>
+        <strong>Product:</strong> {{ item.product }}<br />
+        <strong>Quantity:</strong> {{ item.quantity }}<br />
+        <strong>Price:</strong> {{ item.price }}<br />
+        <strong>Total Cost:</strong> {{ item.get_cost }}
+      </li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'home' %}">Back to home</a>
+{% endblock %}

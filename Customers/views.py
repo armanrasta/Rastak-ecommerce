@@ -22,7 +22,6 @@ def signup(request):
 
     return render(request, 'Customers/signup.html', {'form': form})
 
-
 def login_view(request):
     if request.method == 'POST':
         form = CustomerLoginForm(request.POST)
@@ -50,7 +49,6 @@ def customer_logout(request):
 
 
 def cart_view(request):
-    
     if not request.user.is_authenticated:
         return redirect('login')
     
@@ -61,19 +59,20 @@ def cart_view(request):
         'cart': cart,
         'cart_items': cart_items,
     }
-    return render(request, 'order/cart.html', context)
+    return render(request, 'Customers/cart.html', context)
 
 def cart_remove(request, product_id):
     cart = get_object_or_404(Cart, customer=request.user)
     item = get_object_or_404(CartItem, cart=cart, product_id=product_id)
     item.delete()
-    return redirect('order:cart_view')
+    return redirect('customers:cart_detail')
 
         
 @login_required
 def add_to_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
-    cart, created = Cart.objects.get_or_create(user=request.user)
+    customer = request.user 
+    cart, created = Cart.objects.get_or_create(customer=customer)
     quantity = int(request.POST.get('quantity', 1))
     cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
     
@@ -83,4 +82,22 @@ def add_to_cart(request, product_id):
         cart_item.quantity = quantity
 
     cart_item.save()
-    return redirect('cart:cart_detail')
+    return redirect('customers:cart_detail')
+
+
+@login_required
+def update_cart(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    customer = request.user
+    cart = get_object_or_404(Cart, customer=customer)
+    
+    quantity = int(request.POST.get('quantity', 1))
+    cart_item = get_object_or_404(CartItem, cart=cart, product=product)
+    
+    if quantity > 0:
+        cart_item.quantity = quantity
+        cart_item.save()
+    else:
+        cart_item.delete()
+
+    return redirect('customers:cart_detail')

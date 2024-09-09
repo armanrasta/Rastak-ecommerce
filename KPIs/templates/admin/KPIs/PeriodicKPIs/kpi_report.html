@@ -1,0 +1,21 @@
+{% extends 'admin/base_site.html' %}
+{% block content %}
+    <h1>KPI Report</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="button">Generate Report</button>
+    </form>
+
+    {% if kpi_data %}
+        <h2>KPI Results</h2>
+        <ul>
+            <li><strong>Total Revenue:</strong> {{ kpi_data.total_revenue }}</li>
+            <li><strong>Total Orders:</strong> {{ kpi_data.total_orders }}</li>
+            <li><strong>Total Acquisition Cost:</strong> {{ kpi_data.total_acquisition_cost }}</li>
+            <li><strong>Total Cart Creations:</strong> {{ kpi_data.total_cart_creations }}</li>
+            <!-- Add other KPIs here -->
+        </ul>
+    {% endif %}
+{% endblock %}

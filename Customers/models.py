@@ -62,8 +62,8 @@ class Address(models.Model):
     state = models.CharField(null=False, blank=False, max_length=30)
     city = models.CharField(null=False, blank=False, max_length=30)
     full_address = models.TextField()
-    lat = models.FloatField()
-    lon = models.FloatField()
+    lat = models.FloatField(default=0)
+    lon = models.FloatField(default=0)
     postal_code = models.IntegerField()
     extra_description = models.TextField()
 

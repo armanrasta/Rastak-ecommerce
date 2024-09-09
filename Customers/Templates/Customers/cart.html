@@ -37,14 +37,17 @@
             <tbody>
               {% for item in cart_items %}
               <tr class="table-body-row">
-                <td class="product-remove"><a href="{% url 'order:cart_remove' item.product.id %}"><i class="far fa-window-close"></i></a></td>
+                <td class="product-remove"><a href="{% url 'customers:cart_remove' item.product.id %}"><i class="far fa-window-close"></i></a></td>
                 <td class="product-image"><img src="{{ item.product.pictures.first.image.url }}" alt=""></td>
                 <td class="product-name">{{ item.product.name }}</td>
-                <td class="product-price">T{{ item.product.price }}</td>
+                <td class="product-price">${{ item.product.price }}</td>
                 <td class="product-quantity">
-                  <input type="number" value="{{ item.quantity }}" min="1" readonly>
+                  <form action="{% url 'customers:update_cart' item.product.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="number" name="quantity" value="{{ item.quantity }}" min="1" onchange="this.form.submit()">
+                  </form>
                 </td>
-                <td class="product-total">T{{ item.total_price }}</td>
+                <td class="product-total">${{ item.total_price }}</td>
               </tr>
               {% empty %}
               <tr>
@@ -68,16 +71,16 @@
             <tbody>
               <tr class="total-data">
                 <td><strong>Total: </strong></td>
-                <td>T{{ cart.total_price }}</td>
+                <td>${{ cart.total_price }}</td>
               </tr>
             </tbody>
           </table>
           <div class="cart-buttons">
-            <a href="{% url 'order:order_create' %}" class="boxed-btn black">Check Out</a>
+            <a href="{% url 'orders:checkout' %}" class="boxed-btn black">Check Out</a>
           </div>
         </div>
 
-        <div class="coupon-section">
+        {% comment %} <div class="coupon-section">
           <h3>Apply Coupon</h3>
           <div class="coupon-form-wrap">
             <form action="{% url 'order:apply_coupon' %}" method="post">
@@ -86,7 +89,7 @@
               <p><input type="submit" value="Apply"></p>
             </form>
           </div>
-        </div>
+        </div> {% endcomment %}
       </div>
     </div>
   </div>
