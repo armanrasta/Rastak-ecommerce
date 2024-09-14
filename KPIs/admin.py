@@ -11,7 +11,8 @@ from Customers.models import Customer, Cart
 from Orders.models import Order, OrderItem
 from .forms import KPIReportForm
 from django.utils.html import format_html
-
+from import_export.admin import ExportActionMixin
+from .resources import PeriodicKPIResource
 
 # Register your models here
 
@@ -30,6 +31,8 @@ class DailyKPIAdmin(admin.ModelAdmin, DjangoQLSearchMixin):
 
 
 class PeriodicKPIAdmin(admin.ModelAdmin):
+    
+    resource_class = PeriodicKPIResource
     list_display = ('start_date', 'end_date', 'total_revenue', 'total_orders',
                     'total_repeats', 'lost_customers', 'total_unique_customers',
                     'average_inventory','churn_rate', 'purchase_frequency',
