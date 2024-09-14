@@ -1,8 +1,0 @@
-{% extends "admin/change_list.html" %}
-
-{% block object-tools %}
-    {{ block.super }}
-    <div class="object-tools">
-        <a href="{% url 'admin:periodickpi_kpi_report' %}" class="button">Create KPI Report</a>
-    </div>
-{% endblock %}
